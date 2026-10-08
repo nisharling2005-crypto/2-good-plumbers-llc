@@ -3118,7 +3118,7 @@
       PLUMBING_SERVICES.forEach(s => {
         const card = document.createElement('div');
         card.className = `problem-card ${s.id === bookingState.problemId ? 'selected' : ''}`;
-        card.onclick = () => selectProblem(s.id);
+        card.onclick = () => selectProblem(s.id, card);
         card.innerHTML = `
           <div class="problem-icon">${s.icon}</div>
           <h5>${s.name}</h5>
@@ -3127,8 +3127,8 @@
       });
     }
 
-    // Select problem in Step 1
-    function selectProblem(id) {
+    // Select problem in Step 1 and instantly advance to Step 2
+    function selectProblem(id, el) {
       const service = PLUMBING_SERVICES.find(s => s.id === id);
       if (!service) return;
       bookingState.problemId = service.id;
@@ -3136,10 +3136,15 @@
       bookingState.suboption = service.suboptions[0] || 'Standard';
 
       document.querySelectorAll('.problem-card').forEach(c => c.classList.remove('selected'));
-      event.currentTarget.classList.add('selected');
+      if (el) {
+        el.classList.add('selected');
+      }
 
       document.getElementById('step1Error').style.display = 'none';
       populateStep2Suboptions();
+
+      // Automatically advance to Step 2 and scroll to upper side of Step Box
+      goToStep(2);
     }
 
     // Preselect from Services section and scroll to booking wizard
