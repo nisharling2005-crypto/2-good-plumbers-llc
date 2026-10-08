@@ -1108,6 +1108,7 @@
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-md);
       overflow: hidden;
+      scroll-margin-top: 52px;
     }
 
     .booking-engine-header {
@@ -1850,6 +1851,20 @@
 
     /* Mobile Responsive Optimizations */
     @media (max-width: 768px) {
+      .main-header {
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+        background: #ffffff !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        display: block !important;
+      }
+
+      .booking-engine-wrapper {
+        scroll-margin-top: 48px;
+      }
+
       .container {
         padding: 0 12px;
       }
@@ -2111,7 +2126,7 @@
           <li><a href="#services" class="nav-link">Services</a></li>
           <li><a href="#whyUs" class="nav-link">Why Choose Us</a></li>
           <li><a href="#portfolio" class="nav-link">Real Work</a></li>
-          <li><a href="#bookingApp" class="nav-link">Book Online</a></li>
+          <li><a href="#bookingStepBox" class="nav-link">Book Online</a></li>
           <li><a href="#reviews" class="nav-link">Reviews</a></li>
           <li><a href="#serviceArea" class="nav-link">Service Areas</a></li>
           <li><a href="#faq" class="nav-link">FAQ</a></li>
@@ -2132,7 +2147,7 @@
               <span class="header-phone-num">(602) 565-6408</span>
             </div>
           </a>
-          <a href="#bookingApp" class="btn-nav-book" id="headerBookBtn">
+          <a href="#bookingStepBox" class="btn-nav-book" id="headerBookBtn">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
               <line x1="16" y1="2" x2="16" y2="6"></line>
@@ -2162,7 +2177,7 @@
           <span>📸 Real Work Showcase</span>
           <span>➔</span>
         </a>
-        <a href="#bookingApp" class="mobile-drawer-link" onclick="closeMobileMenu()">
+        <a href="#bookingStepBox" class="mobile-drawer-link" onclick="closeMobileMenu()">
           <span>📅 Book Appointment</span>
           <span>➔</span>
         </a>
@@ -2190,7 +2205,7 @@
     <a href="tel:+16025656408" class="mobile-bar-call">
       📞 Call Now
     </a>
-    <a href="#bookingApp" class="mobile-bar-book">
+    <a href="#bookingStepBox" class="mobile-bar-book">
       📅 Book Online
     </a>
   </div>
@@ -2211,7 +2226,7 @@
               Reliable, affordable, and honest plumbing solutions backed by 25+ years of master craftsmanship. Whether you have a midnight slab leak or need a full copper repipe, we dispatch master plumbers across Phoenix with 100% upfront pricing.
             </p>
             <div class="hero-actions">
-              <a href="#bookingApp" class="btn btn-accent">📅 Schedule Service Online</a>
+              <a href="#bookingStepBox" class="btn btn-accent">📅 Schedule Service Online</a>
               <a href="tel:+16025656408" class="btn btn-navy">📞 Call (602) 565-6408</a>
             </div>
 
@@ -2276,7 +2291,7 @@
               <a href="tel:+16025656408" class="hero-call-big">
                 📞 (602) 565-6408
               </a>
-              <a href="#bookingApp" class="btn btn-outline" style="width: 100%;">
+              <a href="#bookingStepBox" class="btn btn-outline" style="width: 100%;">
                 Choose Your Problem & Book
               </a>
             </div>
@@ -2297,7 +2312,7 @@
             <a href="tel:+16025656408" class="btn btn-accent" style="font-size: 1.1rem; padding: 14px 28px;">
               ⚡ Emergency Call: (602) 565-6408
             </a>
-            <a href="#bookingApp" class="btn btn-outline-white">
+            <a href="#bookingStepBox" class="btn btn-outline-white">
               Schedule Online
             </a>
           </div>
@@ -2469,7 +2484,7 @@
           <p>Choose your exact issue below for an upfront quote and confirmed arrival window from our licensed Phoenix dispatchers.</p>
         </div>
 
-        <div class="booking-engine-wrapper">
+        <div class="booking-engine-wrapper" id="bookingStepBox">
           <div class="booking-engine-header">
             <div class="booking-header-text">
               <h3 id="wizardStepTitle">Step 1: Choose Your Plumbing Issue</h3>
@@ -2901,7 +2916,7 @@
             <li><a href="#services">Plumbing Services</a></li>
             <li><a href="#whyUs">Why Choose Us</a></li>
             <li><a href="#portfolio">Recent Work Portfolio</a></li>
-            <li><a href="#bookingApp">Online Booking</a></li>
+            <li><a href="#bookingStepBox">Online Booking</a></li>
             <li><a href="#reviews">Customer Reviews</a></li>
             <li><a href="#faq">Frequently Asked Questions</a></li>
           </ul>
@@ -3139,7 +3154,7 @@
       populateStep2Suboptions();
       goToStep(2);
 
-      const wizard = document.getElementById('bookingApp');
+      const wizard = document.getElementById('bookingStepBox') || document.getElementById('bookingApp');
       if (wizard) wizard.scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -3313,7 +3328,8 @@
       document.getElementById('wizardStepFraction').textContent = "Completed";
       document.getElementById('progressBar').style.width = '100%';
 
-      document.getElementById('bookingApp').scrollIntoView({ behavior: 'smooth' });
+      const wizardBox = document.getElementById('bookingStepBox') || document.getElementById('bookingApp');
+      if (wizardBox) wizardBox.scrollIntoView({ behavior: 'smooth' });
     }
 
     // Demo API logger
