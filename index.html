@@ -3212,6 +3212,12 @@
       document.getElementById('wizardStepFraction').textContent = `Step ${stepNum} of 6`;
 
       if (stepNum === 6) populateStep6Review();
+
+      // Automatically scroll to upper side of Step Box beneath pinned navbar
+      const stepBox = document.getElementById('bookingStepBox') || document.getElementById('bookingApp');
+      if (stepBox) {
+        stepBox.scrollIntoView({ behavior: 'smooth' });
+      }
     }
 
     // Urgency Selection
