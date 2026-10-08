@@ -2774,38 +2774,7 @@
                 </div>
               </div>
 
-              <!-- Section B: Water Supply Triage -->
-              <div class="triage-section">
-                <div class="triage-section-title">
-                  <span>🚰</span> Is Your Main Water Supply Currently Shut Off?
-                </div>
-                <div class="triage-pills-row" id="waterStatusPills">
-                  <button type="button" class="triage-pill selected" onclick="selectWaterStatus('Yes, Safely Shut Off', this)">
-                    <span>🟢</span> Yes, Safely Shut Off
-                  </button>
-                  <button type="button" class="triage-pill" onclick="selectWaterStatus('No, Water is Still Flowing / Leaking', this)">
-                    <span>🔴</span> No, Still Flowing / Leaking
-                  </button>
-                  <button type="button" class="triage-pill" onclick="selectWaterStatus('Need Help Locating Shutoff', this)">
-                    <span>❓</span> Need Help Locating Valve
-                  </button>
-                </div>
-              </div>
 
-              <!-- Section C: Property Classification -->
-              <div class="triage-section">
-                <div class="triage-section-title">
-                  <span>🏢</span> Property Classification (AZ ROC #215358 K-37 Dual License)
-                </div>
-                <div class="triage-pills-row" id="propertyTypePills">
-                  <button type="button" class="triage-pill selected" onclick="selectPropertyType('Residential Home / Townhome', this)">
-                    <span>🏡</span> Residential Home / Townhome
-                  </button>
-                  <button type="button" class="triage-pill" onclick="selectPropertyType('Commercial / Business Facility', this)">
-                    <span>🏪</span> Commercial / Business Property
-                  </button>
-                </div>
-              </div>
 
               <!-- Section D: Dispatch Standards Guarantee Strip -->
               <div class="step-trust-strip">
@@ -2916,14 +2885,7 @@
                   <strong>Priority / Urgency:</strong>
                   <span id="revUrgency">-</span>
                 </div>
-                <div class="review-line">
-                  <strong>Water Supply Status:</strong>
-                  <span id="revWaterStatus">-</span>
-                </div>
-                <div class="review-line">
-                  <strong>Property Classification:</strong>
-                  <span id="revPropertyType">-</span>
-                </div>
+
                 <div class="review-line">
                   <strong>Date:</strong>
                   <span id="revDate">-</span>
@@ -3319,8 +3281,6 @@
       suboption: "Ceiling Leak",
       notes: "",
       urgency: "Today (Same-Day Priority)",
-      waterStatus: "Yes, Safely Shut Off",
-      propertyType: "Residential Home / Townhome",
       dateFormatted: "",
       timeSlot: "Earliest Available (Priority)",
       name: "",
@@ -3490,19 +3450,7 @@
       }
     }
 
-    // Select Water Status in Step 3
-    function selectWaterStatus(status, btn) {
-      bookingState.waterStatus = status;
-      document.querySelectorAll('#waterStatusPills .triage-pill').forEach(p => p.classList.remove('selected'));
-      if (btn) btn.classList.add('selected');
-    }
 
-    // Select Property Type in Step 3
-    function selectPropertyType(type, btn) {
-      bookingState.propertyType = type;
-      document.querySelectorAll('#propertyTypePills .triage-pill').forEach(p => p.classList.remove('selected'));
-      if (btn) btn.classList.add('selected');
-    }
 
     // Generate Next 14 Days Calendar
     function generate14DayCalendar() {
@@ -3576,10 +3524,6 @@
       document.getElementById('revService').textContent = bookingState.problemName;
       document.getElementById('revSuboption').textContent = bookingState.suboption || "Standard Inspection";
       document.getElementById('revUrgency').textContent = bookingState.urgency;
-      const revWater = document.getElementById('revWaterStatus');
-      if (revWater) revWater.textContent = bookingState.waterStatus || "Yes, Safely Shut Off";
-      const revProp = document.getElementById('revPropertyType');
-      if (revProp) revProp.textContent = bookingState.propertyType || "Residential Home / Townhome";
       document.getElementById('revDate').textContent = bookingState.dateFormatted;
       document.getElementById('revTime').textContent = bookingState.timeSlot;
       document.getElementById('revCustomer').textContent = `${bookingState.name} (${bookingState.phone})`;
@@ -3626,8 +3570,6 @@
         `📋 Ref: ${ref}\n` +
         `🔧 Problem: ${bookingState.problemName} (${bookingState.suboption || 'Standard'})\n` +
         `🚨 Urgency: ${bookingState.urgency}\n` +
-        `🚰 Water Status: ${bookingState.waterStatus || 'Safely Shut Off'}\n` +
-        `🏢 Property: ${bookingState.propertyType || 'Residential'}\n` +
         `📅 Date: ${bookingState.dateFormatted}\n` +
         `⏰ Time: ${bookingState.timeSlot}\n` +
         `👤 Name: ${bookingState.name}\n` +
@@ -3681,8 +3623,6 @@
       document.getElementById('stepNotes').value = '';
 
       bookingState.urgency = "Today (Same-Day Priority)";
-      bookingState.waterStatus = "Yes, Safely Shut Off";
-      bookingState.propertyType = "Residential Home / Townhome";
 
       const nextBtn = document.getElementById('step3NextBtn');
       if (nextBtn) nextBtn.style.display = 'inline-flex';
