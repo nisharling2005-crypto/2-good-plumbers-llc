@@ -2785,36 +2785,41 @@
 
               <div class="wizard-buttons">
                 <button type="button" class="btn btn-outline" onclick="goToStep(2)">Back</button>
-                <button type="button" class="btn btn-accent" id="step3NextBtn" onclick="goToStep(4)">Next: Date & Time ➔</button>
+                <button type="button" class="btn btn-accent" id="step3NextBtn" onclick="goToStep(5)">Next: Your Details ➔</button>
               </div>
             </div>
 
             <!-- STEP 4: DATE & TIME -->
             <div class="step-screen" id="step4">
               <div class="step-head">
-                <h4>Choose Arrival Date & Time Window</h4>
-                <p>Select an available date over the next 14 days and your preferred arrival timeframe.</p>
+                <h4 id="step4Title">Choose Arrival Date & Time Window</h4>
+                <p id="step4Sub">Select an available date over the next 14 days and your preferred arrival timeframe.</p>
               </div>
-              <label style="font-size: 0.9rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 8px;">Select Available Date:</label>
-              <div class="calendar-dates-row" id="calendarDatesRow"></div>
 
-              <label style="font-size: 0.9rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 8px;">Select Arrival Window:</label>
-              <div class="time-slots-grid">
-                <div class="time-slot-card selected" onclick="selectTimeSlot('Earliest Available (Priority)', this)">
-                  <strong>Earliest Available</strong>
-                  <div style="font-size: 0.82rem; color: var(--text-muted);">First open dispatch slot</div>
-                </div>
-                <div class="time-slot-card" onclick="selectTimeSlot('Morning (8:00 AM – 12:00 PM)', this)">
-                  <strong>Morning Window</strong>
-                  <div style="font-size: 0.82rem; color: var(--text-muted);">8:00 AM – 12:00 PM</div>
-                </div>
-                <div class="time-slot-card" onclick="selectTimeSlot('Afternoon (12:00 PM – 4:00 PM)', this)">
-                  <strong>Afternoon Window</strong>
-                  <div style="font-size: 0.82rem; color: var(--text-muted);">12:00 PM – 4:00 PM</div>
-                </div>
-                <div class="time-slot-card" onclick="selectTimeSlot('Evening (4:00 PM – 7:00 PM)', this)">
-                  <strong>Evening Window</strong>
-                  <div style="font-size: 0.82rem; color: var(--text-muted);">4:00 PM – 7:00 PM</div>
+              <div id="dateSelectionBlock">
+                <label style="font-size: 0.9rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 8px;">Select Available Date:</label>
+                <div class="calendar-dates-row" id="calendarDatesRow"></div>
+              </div>
+
+              <div id="arrivalWindowBlock">
+                <label style="font-size: 0.9rem; font-weight: 800; color: var(--primary); display: block; margin-bottom: 8px;" id="arrivalWindowLabel">Select Arrival Window:</label>
+                <div class="time-slots-grid">
+                  <div class="time-slot-card selected" onclick="selectTimeSlot('Earliest Available (Priority)', this)">
+                    <strong>Earliest Available</strong>
+                    <div style="font-size: 0.82rem; color: var(--text-muted);">First open dispatch slot</div>
+                  </div>
+                  <div class="time-slot-card" onclick="selectTimeSlot('Morning (8:00 AM – 12:00 PM)', this)">
+                    <strong>Morning Window</strong>
+                    <div style="font-size: 0.82rem; color: var(--text-muted);">8:00 AM – 12:00 PM</div>
+                  </div>
+                  <div class="time-slot-card" onclick="selectTimeSlot('Afternoon (12:00 PM – 4:00 PM)', this)">
+                    <strong>Afternoon Window</strong>
+                    <div style="font-size: 0.82rem; color: var(--text-muted);">12:00 PM – 4:00 PM</div>
+                  </div>
+                  <div class="time-slot-card" onclick="selectTimeSlot('Evening (4:00 PM – 7:00 PM)', this)">
+                    <strong>Evening Window</strong>
+                    <div style="font-size: 0.82rem; color: var(--text-muted);">4:00 PM – 7:00 PM</div>
+                  </div>
                 </div>
               </div>
 
@@ -2860,7 +2865,7 @@
               </div>
 
               <div class="wizard-buttons">
-                <button type="button" class="btn btn-outline" onclick="goToStep(4)">Back</button>
+                <button type="button" class="btn btn-outline" onclick="handleStep5Back()">Back</button>
                 <button type="button" class="btn btn-accent" onclick="validateStep5AndProceed()">Review & Confirm ➔</button>
               </div>
             </div>
@@ -3421,6 +3426,14 @@
       document.getElementById('wizardStepTitle').textContent = titles[stepNum] || "Schedule Your Visit";
       document.getElementById('wizardStepFraction').textContent = `Step ${stepNum} of 6`;
 
+      if (stepNum === 4) {
+        if (bookingState.urgency.includes('Within 2–3 Days') || bookingState.urgency.includes('Within 2-3 Days')) {
+          configureStep4View('window-only');
+        } else {
+          configureStep4View('date-and-time');
+        }
+      }
+
       if (stepNum === 6) populateStep6Review();
 
       // Automatically scroll to upper side of Step Box beneath pinned navbar
@@ -3438,15 +3451,71 @@
 
       const warning = document.getElementById('emergencyWarning');
       const nextBtn = document.getElementById('step3NextBtn');
+
       if (level.includes('Emergency')) {
         if (warning) {
           warning.style.display = 'block';
           warning.scrollIntoView({ behavior: 'smooth' });
         }
         if (nextBtn) nextBtn.style.display = 'none'; // REMOVE NEXT STEP BUTTON
-      } else {
+      } else if (level.includes('Today')) {
+        // SAME-DAY: SKIP STEP 4 -> GO DIRECTLY TO STEP 5
         if (warning) warning.style.display = 'none';
-        if (nextBtn) nextBtn.style.display = 'inline-flex'; // RESTORE NEXT STEP BUTTON
+        if (nextBtn) {
+          nextBtn.style.display = 'inline-flex';
+          nextBtn.innerHTML = 'Next: Your Details ➔';
+          nextBtn.onclick = () => goToStep(5);
+        }
+        bookingState.dateFormatted = 'Today (Same-Day Dispatch)';
+        bookingState.timeSlot = 'Today: Earliest Available Priority';
+      } else if (level.includes('Within 2–3 Days') || level.includes('Within 2-3 Days')) {
+        // 2-3 DAYS: GO TO STEP 4, HIDE DATE SELECTOR (ONLY SHOW ARRIVAL WINDOW)
+        if (warning) warning.style.display = 'none';
+        if (nextBtn) {
+          nextBtn.style.display = 'inline-flex';
+          nextBtn.innerHTML = 'Next: Arrival Window ➔';
+          nextBtn.onclick = () => goToStep(4);
+        }
+        bookingState.dateFormatted = 'Within Next 2–3 Days';
+        configureStep4View('window-only');
+      } else {
+        // FLEXIBLE / FREE ESTIMATE: SHOW BOTH DATE AND ARRIVAL WINDOW
+        if (warning) warning.style.display = 'none';
+        if (nextBtn) {
+          nextBtn.style.display = 'inline-flex';
+          nextBtn.innerHTML = 'Next: Date & Time ➔';
+          nextBtn.onclick = () => goToStep(4);
+        }
+        configureStep4View('date-and-time');
+      }
+    }
+
+    // Configure Step 4 View based on urgency selection
+    function configureStep4View(mode) {
+      const dateBlock = document.getElementById('dateSelectionBlock');
+      const title = document.getElementById('step4Title');
+      const sub = document.getElementById('step4Sub');
+      const arrivalLabel = document.getElementById('arrivalWindowLabel');
+
+      if (mode === 'window-only') {
+        if (dateBlock) dateBlock.style.display = 'none';
+        if (title) title.textContent = 'Choose Arrival Window (Within 2–3 Days)';
+        if (sub) sub.textContent = 'Our dispatch team will schedule your service within the next 2–3 days during your preferred timeframe.';
+        if (arrivalLabel) arrivalLabel.textContent = 'Select Your Preferred Arrival Window:';
+      } else {
+        if (dateBlock) dateBlock.style.display = 'block';
+        if (title) title.textContent = 'Choose Arrival Date & Time Window';
+        if (sub) sub.textContent = 'Select an available date over the next 14 days and your preferred arrival timeframe.';
+        if (arrivalLabel) arrivalLabel.textContent = 'Select Arrival Window:';
+      }
+    }
+
+    // Smart Back Handler in Step 5
+    function handleStep5Back() {
+      if (bookingState.urgency.includes('Today')) {
+        goToStep(3); // Skipped Step 4, so Back returns to Step 3
+      } else {
+        goToStep(4);
       }
     }
 
@@ -3623,9 +3692,15 @@
       document.getElementById('stepNotes').value = '';
 
       bookingState.urgency = "Today (Same-Day Priority)";
+      bookingState.dateFormatted = "Today (Same-Day Dispatch)";
+      bookingState.timeSlot = "Today: Earliest Available Priority";
 
       const nextBtn = document.getElementById('step3NextBtn');
-      if (nextBtn) nextBtn.style.display = 'inline-flex';
+      if (nextBtn) {
+        nextBtn.style.display = 'inline-flex';
+        nextBtn.innerHTML = 'Next: Your Details ➔';
+        nextBtn.onclick = () => goToStep(5);
+      }
       const warning = document.getElementById('emergencyWarning');
       if (warning) warning.style.display = 'none';
 
