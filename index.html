@@ -1365,9 +1365,10 @@
       border: 1.5px solid var(--border-color);
       border-radius: var(--radius-sm);
       font-family: var(--font-body);
-      font-size: 0.95rem;
+      font-size: 16px; /* 16px base font prevents iOS Safari auto-zoom */
       color: var(--text-main);
       transition: var(--transition);
+      min-height: 48px; /* Thumb-friendly tap targets */
     }
 
     .form-group input:focus,
@@ -1693,6 +1694,271 @@
       font-weight: 800;
       text-transform: uppercase;
     }
+
+    /* Mobile Hamburger Toggle Button */
+    .mobile-nav-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 42px;
+      height: 42px;
+      background: #f8fafc;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      padding: 10px 9px;
+      transition: var(--transition);
+      z-index: 1001;
+    }
+
+    .mobile-nav-toggle:hover {
+      background: #f1f5f9;
+      border-color: var(--primary);
+    }
+
+    .mobile-nav-toggle span {
+      width: 100%;
+      height: 2.5px;
+      background: var(--primary);
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .mobile-nav-toggle.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .mobile-nav-toggle.open span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(-8px);
+    }
+
+    .mobile-nav-toggle.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    @media (min-width: 1024px) {
+      .mobile-nav-toggle {
+        display: none;
+      }
+    }
+
+    /* Mobile Dropdown Navigation Drawer */
+    .mobile-nav-drawer {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      box-shadow: 0 16px 32px rgba(14, 42, 71, 0.14);
+      border-top: 1px solid var(--border-color);
+      padding: 20px 24px;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 999;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+    }
+
+    .mobile-nav-drawer.open {
+      display: flex;
+      animation: mobileSlide 0.25s ease;
+    }
+
+    @keyframes mobileSlide {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .mobile-drawer-link {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary);
+      padding: 12px 4px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+
+    .mobile-drawer-link:hover {
+      color: var(--accent);
+      padding-left: 8px;
+    }
+
+    .mobile-drawer-call {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px;
+      background: var(--primary);
+      color: #ffffff;
+      font-family: var(--font-heading);
+      font-weight: 900;
+      font-size: 1.02rem;
+      border-radius: var(--radius-sm);
+      margin-top: 8px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Mobile Responsive Optimizations */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .navbar-inner {
+        height: 72px;
+      }
+
+      .brand-logo-icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .brand-logo-name {
+        font-size: 1.15rem;
+      }
+
+      .brand-logo-sub {
+        font-size: 0.62rem;
+      }
+
+      .btn-nav-book {
+        padding: 10px 16px;
+        font-size: 0.85rem;
+      }
+
+      .top-ribbon-left {
+        justify-content: center;
+        text-align: center;
+        font-size: 0.78rem;
+      }
+
+      .top-ribbon-right {
+        justify-content: center;
+        width: 100%;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 4px;
+        font-size: 0.82rem;
+      }
+
+      .hero-section {
+        padding: 34px 0 48px;
+      }
+
+      .hero-title {
+        font-size: clamp(1.85rem, 6vw, 2.45rem);
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 24px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .trust-strip {
+        gap: 12px;
+        padding-top: 20px;
+      }
+
+      .hero-card {
+        padding: 22px 18px;
+      }
+
+      /* 2-Column Mobile Problem Cards Grid in Wizard */
+      .problems-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .problem-card {
+        padding: 12px 8px;
+      }
+
+      .problem-icon {
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+      }
+
+      .problem-card h5 {
+        font-size: 0.84rem;
+        line-height: 1.25;
+      }
+
+      .booking-engine-body {
+        padding: 24px 16px;
+      }
+
+      .suboptions-list {
+        grid-template-columns: 1fr;
+      }
+
+      .urgency-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-dates-row {
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+      }
+
+      .date-pill {
+        min-width: 80px;
+        padding: 10px 6px;
+        scroll-snap-align: start;
+      }
+
+      .time-slots-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 50px 0;
+      }
+
+      .section-title {
+        margin-bottom: 34px;
+      }
+
+      .section-title h2 {
+        font-size: clamp(1.75rem, 5.5vw, 2.2rem);
+      }
+
+      .portfolio-img-box {
+        height: 200px;
+      }
+
+      .service-area-box {
+        padding: 30px 16px;
+      }
+
+      .faq-question {
+        padding: 16px 18px;
+        font-size: 1rem;
+      }
+
+      .footer {
+        padding: 44px 0 20px;
+      }
+    }
+
+    /* iPhone Safe Area support */
+    .mobile-bottom-bar {
+      height: calc(64px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    body {
+      padding-bottom: calc(75px + env(safe-area-inset-bottom, 0px));
+    }
   </style>
 </head>
 <body>
@@ -1761,8 +2027,47 @@
             </svg>
             Book Online
           </a>
+          <button type="button" class="mobile-nav-toggle" id="mobileMenuBtn" aria-label="Toggle navigation menu" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </div>
+      <!-- Mobile Dropdown Navigation Drawer -->
+      <nav class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation">
+        <a href="#services" class="mobile-drawer-link" onclick="closeMobileMenu()">
+          <span>🔧 Plumbing Services</span>
+          <span>➔</span>
+        </a>
+        <a href="#whyUs" class="mobile-drawer-link" onclick="closeMobileMenu()">
+          <span>⭐ Why Choose Us</span>
+          <span>➔</span>
+        </a>
+        <a href="#portfolio" class="mobile-drawer-link" onclick="closeMobileMenu()">
+          <span>📸 Real Work Showcase</span>
+          <span>➔</span>
+        </a>
+        <a href="#bookingApp" class="mobile-drawer-link" onclick="closeMobileMenu()">
+          <span>📅 Book Appointment</span>
+          <span>➔</span>
+        </a>
+        <a href="#reviews" class="mobile-drawer-link" onclick="closeMobileMenu()">
+          <span>💬 Customer Reviews (4.7★)</span>
+          <span>➔</span>
+        </a>
+        <a href="#serviceArea" class="mobile-drawer-link" onclick="closeMobileMenu()">
+          <span>📍 Phoenix Service Areas</span>
+          <span>➔</span>
+        </a>
+        <a href="#faq" class="mobile-drawer-link" onclick="closeMobileMenu()">
+          <span>❓ Frequently Asked Questions</span>
+          <span>➔</span>
+        </a>
+        <a href="tel:+16025656408" class="mobile-drawer-call">
+          📞 Call 24/7 Hotline: (602) 565-6408
+        </a>
+      </nav>
     </div>
   </header>
 
@@ -2973,6 +3278,25 @@
       document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
       if (!wasActive) {
         item.classList.add('active');
+      }
+    }
+
+    // Mobile Navigation Drawer Toggle
+    function toggleMobileMenu() {
+      const toggle = document.getElementById('mobileMenuBtn');
+      const drawer = document.getElementById('mobileNavDrawer');
+      if (toggle && drawer) {
+        toggle.classList.toggle('open');
+        drawer.classList.toggle('open');
+      }
+    }
+
+    function closeMobileMenu() {
+      const toggle = document.getElementById('mobileMenuBtn');
+      const drawer = document.getElementById('mobileNavDrawer');
+      if (toggle && drawer) {
+        toggle.classList.remove('open');
+        drawer.classList.remove('open');
       }
     }
 
