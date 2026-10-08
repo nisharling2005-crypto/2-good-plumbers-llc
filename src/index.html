@@ -1298,6 +1298,169 @@
       color: var(--text-muted);
     }
 
+    .urgency-badge {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-bottom: 5px;
+    }
+    .badge-red { background: #fee2e2; color: #b91c1c; }
+    .badge-orange { background: #ffedd5; color: #c2410c; }
+    .badge-blue { background: #e0f2fe; color: #0369a1; }
+    .badge-green { background: #dcfce7; color: #15803d; }
+
+    /* Emergency High-Priority Action Card */
+    .emergency-action-card {
+      background: #fff5f5;
+      border: 2px solid #ef4444;
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.12);
+    }
+
+    .emergency-action-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .emergency-action-header h4 {
+      color: #991b1b;
+      font-size: 1.02rem;
+      margin: 0 0 3px;
+    }
+
+    .btn-emergency-pulse {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #dc2626;
+      color: #ffffff !important;
+      font-weight: 800;
+      font-size: 0.96rem;
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+      animation: emergencyPulse 1.8s infinite;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    .btn-emergency-pulse:hover {
+      background: #b91c1c;
+      transform: translateY(-1px);
+    }
+
+    @keyframes emergencyPulse {
+      0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.6); }
+      70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
+
+    .emergency-steps-list {
+      background: #ffffff;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      margin: 8px 0 0;
+      font-size: 0.78rem;
+      color: #7f1d1d;
+    }
+
+    .emergency-steps-list li {
+      margin-bottom: 5px;
+      list-style-type: none;
+      display: flex;
+      gap: 6px;
+      align-items: flex-start;
+      line-height: 1.35;
+    }
+
+    .emergency-steps-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Step 3 Triage Sections */
+    .triage-section {
+      background: #f8fafc;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      margin-bottom: 14px;
+    }
+
+    .triage-section-title {
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .triage-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .triage-pill {
+      padding: 7px 11px;
+      border: 1.5px solid var(--border-color);
+      background: #ffffff;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .triage-pill:hover {
+      border-color: var(--primary);
+    }
+
+    .triage-pill.selected {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .step-trust-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-around;
+      gap: 8px;
+      background: #ffffff;
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      margin-bottom: 16px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .step-trust-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     /* Step 4 Calendar */
     .calendar-dates-row {
       display: flex;
@@ -2544,44 +2707,116 @@
                 <h4>How Urgent Is This Repair?</h4>
                 <p>Select your priority level so our dispatch team can prioritize technician arrival.</p>
               </div>
+
+              <!-- High-Priority Emergency Action Box (appears only when Emergency is selected) -->
+              <div id="emergencyWarning" class="emergency-action-card" style="display: none;">
+                <div class="emergency-action-header">
+                  <span style="font-size: 1.5rem;">🚨</span>
+                  <div>
+                    <h4>Active Plumbing Emergency — Instant Phone Dispatch Required</h4>
+                    <p style="margin: 0; font-size: 0.80rem; color: #7f1d1d;">
+                      Online calendar scheduling is disabled for active emergencies to prevent catastrophic water and property damage. An on-call licensed master plumber is stationed in Phoenix for immediate dispatch.
+                    </p>
+                  </div>
+                </div>
+
+                <a href="tel:+16025656408" class="btn-emergency-pulse">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                  CALL 24/7 EMERGENCY HOTLINE: (602) 565-6408
+                </a>
+
+                <ul class="emergency-steps-list">
+                  <li><span>🛑</span> <span><strong>Step 1:</strong> Shut off your main water supply valve immediately (near street meter or front hose bib) to stop flooding.</span></li>
+                  <li><span>⚡</span> <span><strong>Step 2:</strong> Turn off circuit breakers if water is pooling near appliances or electrical outlets.</span></li>
+                  <li><span>📞</span> <span><strong>Step 3:</strong> Call (602) 565-6408 — our on-call dispatcher will provide your immediate arrival ETA.</span></li>
+                </ul>
+
+                <div style="margin-top: 10px; font-size: 0.76rem; color: #991b1b; text-align: center;">
+                  <em>Not an active flooding emergency? Tap "Today (Same-Day Priority)" or "Within 2–3 Days" below to restore online scheduling.</em>
+                </div>
+              </div>
+
+              <!-- Realistic Urgency Tiers Grid -->
               <div class="urgency-grid" id="urgencyGrid">
                 <div class="urgency-box emergency" onclick="selectUrgencyLevel('Emergency (Right Now)', this)">
                   <div class="urgency-icon-box">🚨</div>
                   <div>
+                    <span class="urgency-badge badge-red">Immediate Hotline Dispatch</span>
                     <h5>Emergency (Right Now)</h5>
-                    <p>Active flooding, burst line, gas leak, or complete sewer overflow.</p>
+                    <p>Active flooding, burst line, sewer backflow, or gas smell. <em>Bypasses calendar for phone dispatch.</em></p>
                   </div>
                 </div>
-                <div class="urgency-box selected" onclick="selectUrgencyLevel('Today (Same-Day)', this)">
+                <div class="urgency-box selected" onclick="selectUrgencyLevel('Today (Same-Day Priority)', this)">
                   <div class="urgency-icon-box">⚡</div>
                   <div>
-                    <h5>Today (Same-Day)</h5>
-                    <p>Urgent repair needed today during standard operational hours.</p>
+                    <span class="urgency-badge badge-orange">Guaranteed Today</span>
+                    <h5>Today (Same-Day Priority)</h5>
+                    <p>Water heater leak, single toilet clogged, disposal jammed, or contained leak. 2-hr arrival window today.</p>
                   </div>
                 </div>
-                <div class="urgency-box" onclick="selectUrgencyLevel('Within 2-3 Days', this)">
+                <div class="urgency-box" onclick="selectUrgencyLevel('Within 2–3 Days (Scheduled)', this)">
                   <div class="urgency-icon-box">📅</div>
                   <div>
-                    <h5>Within 2–3 Days</h5>
-                    <p>Scheduled maintenance, dripping faucets, or minor fixture repairs.</p>
+                    <span class="urgency-badge badge-blue">Standard Rate</span>
+                    <h5>Within 2–3 Days (Scheduled)</h5>
+                    <p>Dripping faucet, slow drain, toilet rebuild, or water softener tune-up. Guaranteed calendar slot with 0 rush fees.</p>
                   </div>
                 </div>
-                <div class="urgency-box" onclick="selectUrgencyLevel('Flexible / Next Week', this)">
-                  <div class="urgency-icon-box">☕</div>
+                <div class="urgency-box" onclick="selectUrgencyLevel('Flexible / Free Estimate', this)">
+                  <div class="urgency-icon-box">📋</div>
                   <div>
-                    <h5>Flexible / Next Week</h5>
-                    <p>Remodel consultation, repiping estimate, or inspection.</p>
+                    <span class="urgency-badge badge-green">Free Estimate</span>
+                    <h5>Flexible / Free Estimate</h5>
+                    <p>Whole-home repiping, water filtration / RO installation, or bathroom remodel. Complimentary written quote.</p>
                   </div>
                 </div>
               </div>
 
-              <div id="emergencyWarning" style="display: none; background: var(--danger-bg); border: 1px solid #fca5a5; padding: 16px; border-radius: var(--radius-sm); margin-bottom: 20px; color: #991b1b;">
-                <strong>⚠️ Emergency Dispatch:</strong> For active flooding or water bursts, please shut off your main water valve and call our hotline directly at <a href="tel:+16025656408" style="font-weight: 800; text-decoration: underline;">(602) 565-6408</a>.
+              <!-- Section B: Water Supply Triage -->
+              <div class="triage-section">
+                <div class="triage-section-title">
+                  <span>🚰</span> Is Your Main Water Supply Currently Shut Off?
+                </div>
+                <div class="triage-pills-row" id="waterStatusPills">
+                  <button type="button" class="triage-pill selected" onclick="selectWaterStatus('Yes, Safely Shut Off', this)">
+                    <span>🟢</span> Yes, Safely Shut Off
+                  </button>
+                  <button type="button" class="triage-pill" onclick="selectWaterStatus('No, Water is Still Flowing / Leaking', this)">
+                    <span>🔴</span> No, Still Flowing / Leaking
+                  </button>
+                  <button type="button" class="triage-pill" onclick="selectWaterStatus('Need Help Locating Shutoff', this)">
+                    <span>❓</span> Need Help Locating Valve
+                  </button>
+                </div>
+              </div>
+
+              <!-- Section C: Property Classification -->
+              <div class="triage-section">
+                <div class="triage-section-title">
+                  <span>🏢</span> Property Classification (AZ ROC #215358 K-37 Dual License)
+                </div>
+                <div class="triage-pills-row" id="propertyTypePills">
+                  <button type="button" class="triage-pill selected" onclick="selectPropertyType('Residential Home / Townhome', this)">
+                    <span>🏡</span> Residential Home / Townhome
+                  </button>
+                  <button type="button" class="triage-pill" onclick="selectPropertyType('Commercial / Business Facility', this)">
+                    <span>🏪</span> Commercial / Business Property
+                  </button>
+                </div>
+              </div>
+
+              <!-- Section D: Dispatch Standards Guarantee Strip -->
+              <div class="step-trust-strip">
+                <span class="step-trust-item">🛡️ Dual ROC #215358 Licensed & Bonded</span>
+                <span class="step-trust-item">⏱️ Confirmed 2-Hour Arrival Windows</span>
+                <span class="step-trust-item">💲 100% Upfront Pricing Before Work</span>
               </div>
 
               <div class="wizard-buttons">
                 <button type="button" class="btn btn-outline" onclick="goToStep(2)">Back</button>
-                <button type="button" class="btn btn-accent" onclick="goToStep(4)">Next: Date & Time ➔</button>
+                <button type="button" class="btn btn-accent" id="step3NextBtn" onclick="goToStep(4)">Next: Date & Time ➔</button>
               </div>
             </div>
 
@@ -2680,6 +2915,14 @@
                 <div class="review-line">
                   <strong>Priority / Urgency:</strong>
                   <span id="revUrgency">-</span>
+                </div>
+                <div class="review-line">
+                  <strong>Water Supply Status:</strong>
+                  <span id="revWaterStatus">-</span>
+                </div>
+                <div class="review-line">
+                  <strong>Property Classification:</strong>
+                  <span id="revPropertyType">-</span>
                 </div>
                 <div class="review-line">
                   <strong>Date:</strong>
@@ -3075,7 +3318,9 @@
       problemName: "Burst & Leaking Pipes",
       suboption: "Ceiling Leak",
       notes: "",
-      urgency: "Today (Same-Day)",
+      urgency: "Today (Same-Day Priority)",
+      waterStatus: "Yes, Safely Shut Off",
+      propertyType: "Residential Home / Townhome",
       dateFormatted: "",
       timeSlot: "Earliest Available (Priority)",
       name: "",
@@ -3229,14 +3474,34 @@
     function selectUrgencyLevel(level, element) {
       bookingState.urgency = level;
       document.querySelectorAll('.urgency-box').forEach(b => b.classList.remove('selected'));
-      element.classList.add('selected');
+      if (element) element.classList.add('selected');
 
       const warning = document.getElementById('emergencyWarning');
+      const nextBtn = document.getElementById('step3NextBtn');
       if (level.includes('Emergency')) {
-        warning.style.display = 'block';
+        if (warning) {
+          warning.style.display = 'block';
+          warning.scrollIntoView({ behavior: 'smooth' });
+        }
+        if (nextBtn) nextBtn.style.display = 'none'; // REMOVE NEXT STEP BUTTON
       } else {
-        warning.style.display = 'none';
+        if (warning) warning.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'inline-flex'; // RESTORE NEXT STEP BUTTON
       }
+    }
+
+    // Select Water Status in Step 3
+    function selectWaterStatus(status, btn) {
+      bookingState.waterStatus = status;
+      document.querySelectorAll('#waterStatusPills .triage-pill').forEach(p => p.classList.remove('selected'));
+      if (btn) btn.classList.add('selected');
+    }
+
+    // Select Property Type in Step 3
+    function selectPropertyType(type, btn) {
+      bookingState.propertyType = type;
+      document.querySelectorAll('#propertyTypePills .triage-pill').forEach(p => p.classList.remove('selected'));
+      if (btn) btn.classList.add('selected');
     }
 
     // Generate Next 14 Days Calendar
@@ -3311,6 +3576,10 @@
       document.getElementById('revService').textContent = bookingState.problemName;
       document.getElementById('revSuboption').textContent = bookingState.suboption || "Standard Inspection";
       document.getElementById('revUrgency').textContent = bookingState.urgency;
+      const revWater = document.getElementById('revWaterStatus');
+      if (revWater) revWater.textContent = bookingState.waterStatus || "Yes, Safely Shut Off";
+      const revProp = document.getElementById('revPropertyType');
+      if (revProp) revProp.textContent = bookingState.propertyType || "Residential Home / Townhome";
       document.getElementById('revDate').textContent = bookingState.dateFormatted;
       document.getElementById('revTime').textContent = bookingState.timeSlot;
       document.getElementById('revCustomer').textContent = `${bookingState.name} (${bookingState.phone})`;
@@ -3357,6 +3626,8 @@
         `📋 Ref: ${ref}\n` +
         `🔧 Problem: ${bookingState.problemName} (${bookingState.suboption || 'Standard'})\n` +
         `🚨 Urgency: ${bookingState.urgency}\n` +
+        `🚰 Water Status: ${bookingState.waterStatus || 'Safely Shut Off'}\n` +
+        `🏢 Property: ${bookingState.propertyType || 'Residential'}\n` +
         `📅 Date: ${bookingState.dateFormatted}\n` +
         `⏰ Time: ${bookingState.timeSlot}\n` +
         `👤 Name: ${bookingState.name}\n` +
@@ -3408,6 +3679,15 @@
       document.getElementById('custZip').value = '';
       document.getElementById('custAddress').value = '';
       document.getElementById('stepNotes').value = '';
+
+      bookingState.urgency = "Today (Same-Day Priority)";
+      bookingState.waterStatus = "Yes, Safely Shut Off";
+      bookingState.propertyType = "Residential Home / Townhome";
+
+      const nextBtn = document.getElementById('step3NextBtn');
+      if (nextBtn) nextBtn.style.display = 'inline-flex';
+      const warning = document.getElementById('emergencyWarning');
+      if (warning) warning.style.display = 'none';
 
       goToStep(1);
     }
